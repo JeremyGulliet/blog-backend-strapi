@@ -5,6 +5,7 @@
 import { factories } from "@strapi/strapi";
 import author from "../../author/controllers/author";
 import category from "../../category/controllers/category";
+import comment from "../../comment/controllers/comment";
 
 export default factories.createCoreController(
   "api::article.article",
@@ -20,6 +21,25 @@ export default factories.createCoreController(
           },
           author: { fields: ["name", "email"] },
           category: { fields: ["name"] },
+          comments: { fields: ["content", "author"] },
+          content: {
+            populate: {
+              children: {
+                fields: ["type", "text"],
+              },
+              image: {
+                fields: [
+                  "name",
+                  "alternativeText",
+                  "url",
+                  "caption",
+                  "width",
+                  "height",
+                  "formats",
+                ],
+              },
+            },
+          },
         },
       });
 
